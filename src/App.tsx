@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
-import axios from "axios";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Home from "./pages/Home";
+import EditPost from "./pages/EditPost";
+import PostDetail from "./pages/PostDetail";
+import CreatePost from './pages/CreatePost';
+
 
 function App() {
-  const[posts, setPosts] = useState([]);
-  //データ一覧
-  axios
-  .get('localhost:18080/v1/note')            
-  .then(response => {
-      setPosts(response.data);
-      console.log(response.data);
-  })                              
-  .catch(() => {
-      console.log('通信に失敗しました');
-  });     
-  return(
-    <></>
+  return (
+    <Router>
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/post/create' component={CreatePost} />
+        <Route exact path={`/post/:id/edit`} component={EditPost} />
+        <Route exact path={`/post/:id`} component={PostDetail} />
+      </Switch>
+    </Router>
   )
-
-  //データ送信
-  
 
 }
 
