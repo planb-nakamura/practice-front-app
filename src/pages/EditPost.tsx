@@ -1,13 +1,14 @@
 import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
 type RouterParams = {
     id: string;
 }
 
 function EditPost(){
-    const {id} = useParams<RouterParams>();
+    const { id } = useParams<RouterParams>();
     const [title, setTitle] = useState<string>();
     const [content, setContent] = useState<string>();
 
@@ -20,8 +21,7 @@ function EditPost(){
         }).catch((e) => console.log(e.response.data))
     }
 
-    // eslint-disable-next-line no-lone-blocks
-    {/** return文終了後（レンダリング後）に実行される*/}
+    /** return文終了後（レンダリング後）に実行される*/
     useEffect(() => {
         axios
         .get(`http://localhost:18080/v1/note/${id}`)            
@@ -35,8 +35,7 @@ function EditPost(){
         }); 
       }, [id]);
 
-    // eslint-disable-next-line no-lone-blocks
-    {/** useEffectより先に実行される*/}
+    /** useEffectより先に実行される*/
     return (
       <>
         <form>

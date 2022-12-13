@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
 type Post = {//typeを定義する理由はコードを見るだけでapiからどういったレスポンスが来ているのか把握できるため。
@@ -9,43 +8,40 @@ type Post = {//typeを定義する理由はコードを見るだけでapiから�
     createdAt: string;
     updateAt: string;
   }
-  
-type FindAllPostsResponse = {
-    items: Post[];
-    total: number;
-}
+
+const queryClient = new QueryClient();
+
+const fetchPosts = async () => {
+  const res = await fetch('http://localhost:18080/v1/note');//async,awaitを使わずにfetchだけだとpromiseオブジェクトが返ってくる
+  console.log(res);
+  return res.json();
+};
 
 function Home(){
-    const[posts, setPosts] = useState<Post[]>([]);
+    const { data, isLoading, isError, error } = useQuery('posts', fetchPosts);
 
-    useEffect(() => { 
-      axios
-      .get<FindAllPostsResponse>('http://localhost:18080/v1/note')            
-      .then(response => {
-          setPosts(response.data.items);
-          // console.log(response.data);
-      })                              
-      .catch(() => {
-          alert('通信に失敗しました');
-      }); 
-    }, []);
+    if (isLoading) {
+      return <span>Loading...</span>
+    }
+
+    if(isError) {
+      return <span>Error: </span>;
+    }
 
     return(
-      <>
+      <QueryClientProvider client={queryClient}>
         <ul>
-          {posts.map((post) => (
-            <>
-                <li key={post.id}>
-                    <Link to={`post/${post.id}`}>
-                        <p>{post.title}</p>
-                        <p>{post.createdAt}</p>
-                    </Link>
-                </li>
-            </>
+          {data.items.map((post: Post) => (
+          <li key={post.id}>
+            <Link to={`post/${post.id}`}>
+              <p>{post.title}</p>
+              <p>{post.createdAt}</p>
+            </Link>
+          </li>
           ))}
         </ul>
         <Link to="/post/create"><button>Add</button></Link>
-      </>
+      </QueryClientProvider>
     )
 }
 

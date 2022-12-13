@@ -24,23 +24,23 @@ const modalContent = {
   borderRadius: "3px",
 };
 
-
 const Modal = (props: {
   content: ReactNode;
   setShowModal(arg0: boolean): unknown; showFlag: any; 
 }) => {
   const {id} = useParams<RouterParams>();
 
-  const onDelete = (id: string) => {
-    axios.delete(`http://localhost:18080/v1/note/${id}`)
-    .then(() => {
-    window.location.href = "http://localhost:3000";
-  });
-};
+  const deletePost = async (id: string) => {//なぜ引数をid: RouterParamsとするとエラーが出るのか
+    await fetch(
+      `http://localhost:18080/v1/note/${id}`,
+      { method: 'DELETE' }
+    );
+    window.location.href = "http://localhost:3000";//ここ変更
+  }
 
-const closeModal = () => {
-  props.setShowModal(false);
-};
+  const closeModal = () => {
+    props.setShowModal(false);
+  };
 
   return (
     <>
@@ -49,7 +49,7 @@ const closeModal = () => {
           <div id="modalContent" style={modalContent}>
             <p>{props.content}</p>
             <button onClick={closeModal}>閉じる</button>
-            <button onClick={() => onDelete(id)}>削除</button>
+            <button onClick={() => deletePost(id)}>削除</button>
           </div>
         </div>
       ) : (
