@@ -5,12 +5,27 @@ import Home from "./pages/Home";
 import EditPost from "./pages/EditPost";
 import PostDetail from "./pages/PostDetail";
 import CreatePost from './pages/CreatePost';
+import emotionReset from 'emotion-reset';
+import { Global, css } from '@emotion/react';
+import Header from './components/Header';
 
 const queryClient = new QueryClient();
 
 
 function App() {
   return (
+    <>
+    <Global styles={css`
+        ${emotionReset}
+
+        *, *::after, *::before {
+          box-sizing: border-box;
+          -moz-osx-font-smoothing: grayscale;
+          -webkit-font-smoothing: antialiased;
+          font-smoothing: antialiased;
+        }
+      `} />
+    {/* <Header /> */}
     <Router>
       <Switch>
       <QueryClientProvider client={queryClient}>
@@ -21,6 +36,7 @@ function App() {
       </QueryClientProvider>
       </Switch>
     </Router>
+    </>
 
     // <Router>
     // <Routes>

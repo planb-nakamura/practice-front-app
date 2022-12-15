@@ -28,7 +28,7 @@ const Modal = (props: {
   content: ReactNode;
   setShowModal(arg0: boolean): unknown; showFlag: any; 
 }) => {
-  const {id} = useParams<RouterParams>();
+  const {id} = useParams<RouterParams>(); 
 
   const deletePost = async (id: string) => {//なぜ引数をid: RouterParamsとするとエラーが出るのか
     await fetch(
