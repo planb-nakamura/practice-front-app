@@ -60,9 +60,7 @@ function CreatePost() {
         title,
         content,
       })
-      .then((res) => {
-        console.log(res);
-        window.location.href = "http://localhost:3000";
+      .then(() => {
         history.push("/");
       });
   };

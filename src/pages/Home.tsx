@@ -1,8 +1,6 @@
-import { QueryClient, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import emotionReset from "emotion-reset";
-import { Global, css } from "@emotion/react";
 import Loading from "../components/Loading";
 
 const Button = styled.button`
@@ -80,12 +78,11 @@ type Post = {
 
 const fetchPosts = async () => {
   const res = await fetch("http://localhost:18080/v1/note"); //async,awaitを使わずにfetchだけだとpromiseオブジェクトが返ってくる
-  console.log(res);
-  return await res.json();
+  return res.json();
 };
 
 function Home() {
-  const { data, isLoading, isError, error } = useQuery<{
+  const { data, isError } = useQuery<{
     items: Post[];
     total: number;
   }>("posts", fetchPosts);
@@ -95,7 +92,7 @@ function Home() {
   }
 
   if (isError) {
-    return <span>Error: </span>;
+    return <span>データを取得できませんでした</span>;
   }
 
   return (

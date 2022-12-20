@@ -1,4 +1,3 @@
-import React, { ReactNode } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
@@ -26,17 +25,17 @@ const Divin = styled.div`
 `;
 
 const Modal = (props: {
-  content: ReactNode;
+  content: string;
   setShowModal(arg0: boolean): unknown;
-  showFlag: any;
+  showFlag: boolean;
 }) => {
   const { id } = useParams<RouterParams>();
+  const history = useHistory();
 
   const deletePost = async (id: string) => {
     //なぜ引数をid: RouterParamsとするとエラーが出るのか
     await fetch(`http://localhost:18080/v1/note/${id}`, { method: "DELETE" });
-    window.location.href = "http://localhost:3000"; //ここ変更
-    // history.push('/');
+    history.push("/");
   };
 
   const closeModal = () => {

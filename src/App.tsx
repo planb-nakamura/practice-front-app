@@ -7,6 +7,7 @@ import PostDetail from "./pages/PostDetail";
 import CreatePost from "./pages/CreatePost";
 import emotionReset from "emotion-reset";
 import { Global, css } from "@emotion/react";
+import Error404 from "./components/Error404";
 
 const queryClient = new QueryClient();
 
@@ -21,11 +22,10 @@ function App() {
             box-sizing: border-box;
             -moz-osx-font-smoothing: grayscale;
             -webkit-font-smoothing: antialiased;
-            font-smoothing: antialiased;
           }
         `}
       />
-      {/* <Header /> */}
+
       <QueryClientProvider client={queryClient}>
         <Router>
           <Switch>
@@ -33,21 +33,11 @@ function App() {
             <Route exact path="/post/create" component={CreatePost} />
             <Route exact path="/post/:id/edit" component={EditPost} />
             <Route exact path="/post/:id" component={PostDetail} />
+            <Route exact path="*" component={Error404} />
           </Switch>
         </Router>
       </QueryClientProvider>
     </>
-
-    // <Router>
-    // <Routes>
-    // <QueryClientProvider client={queryClient}>
-    //   <Route path='/' element={<Home />} />
-    //   <Route path='/post/create' element={<CreatePost />} />
-    //   <Route path='/post/:id/edit' element={<EditPost />} />
-    //   <Route path='/post/:id' element={<PostDetail />} />
-    // </QueryClientProvider>
-    // </Routes>
-    // </Router>
   );
 }
 

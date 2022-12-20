@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Modal from "../components/modal";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -26,7 +25,7 @@ const Content = styled.p`
   line-height: 1.5;
 `;
 
-const EditButton = styled.button`
+const EditButton = styled.a`
   position: fixed;
   bottom: 10px;
   right: 80px;
@@ -42,6 +41,9 @@ const EditButton = styled.button`
   text-align: center;
   font-weight: bold;
   font-size: 120%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
   -webkit-transition: background-color 0.5s ease-in;
   &:hover {
     background: #2a82a3;
@@ -50,27 +52,8 @@ const EditButton = styled.button`
   }
 `;
 
-const DeleteButton = styled.button`
-  position: fixed;
-  bottom: 10px;
+const DeleteButton = styled(EditButton)`
   right: 10px;
-  width: 60px;
-  height: 38px;
-  background: #fff;
-  border: 2px solid #2a82a3;
-  -webkit-border-radius: 70px;
-  color: #2a82a3;
-  padding: 42px 30px 20px;
-  display: block;
-  text-align: center;
-  font-weight: bold;
-  font-size: 120%;
-  -webkit-transition: background-color 0.5s ease-in;
-  &:hover {
-    background: #2a82a3;
-    color: #fff;
-    border: 2px solid #fff;
-  }
 `;
 
 type RouterParams = {
@@ -78,10 +61,7 @@ type RouterParams = {
 };
 
 const fetchPost = async (id: string) => {
-  const res = await fetch(`http://localhost:18080/v1/note/${id}`, {
-    method: "GET",
-  });
-  console.log(res);
+  const res = await fetch(`http://localhost:18080/v1/note/${id}`);
   return res.json();
 };
 
@@ -90,7 +70,6 @@ function PostDetail() {
   const [modal, setModal] = useState(false);
 
   const { data, isLoading } = useQuery("post", () => fetchPost(id));
-  console.log(data);
 
   if (isLoading) {
     return <Loading />;
@@ -108,7 +87,7 @@ function PostDetail() {
       <Link to={`${id}/edit`}>
         <EditButton>Edit</EditButton>
       </Link>
-      <DeleteButton onClick={ShowModal}>Delete</DeleteButton>
+      <DeleteButton onClick={ShowModal}>Del</DeleteButton>
       <Modal
         showFlag={modal}
         setShowModal={setModal}

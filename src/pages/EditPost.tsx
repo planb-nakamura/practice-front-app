@@ -61,13 +61,16 @@ function EditPost() {
   const history = useHistory();
 
   const fetchPost = async (id: string) => {
-    const res = await fetch(`http://localhost:18080/v1/note/${id}`, {
-      method: "GET",
-    });
+    const res = await fetch(`http://localhost:18080/v1/note/${id}`);
     return res.json();
   };
 
-  const { data, isLoading } = useQuery("post", () => fetchPost(id));
+  const { isLoading } = useQuery("post", () => fetchPost(id), {
+    onSuccess: (data) => {
+      setTitle(data.title);
+      setContent(data.content);
+    },
+  });
 
   const { mutate } = useMutation(
     () =>
@@ -79,6 +82,9 @@ function EditPost() {
       onSuccess: () => {
         history.push("/");
       },
+      onError: () => {
+        alert("データ更新に失敗しました");
+      },
     }
   );
 
@@ -89,17 +95,12 @@ function EditPost() {
   return (
     <Div>
       <form>
-        <Input
-          defaultValue={data.title}
-          onChange={(e) => setTitle(e.target.value)}
-        ></Input>
+        <Input value={title} onChange={(e) => setTitle(e.target.value)}></Input>
       </form>
       <Textarea
-        defaultValue={data.content}
+        value={content}
         onChange={(e) => setContent(e.target.value)}
       ></Textarea>
-      {/** <input defaultValue={post?.title} onChange={(e) => {setTitle(e.target.value)}}></input>
-       * <input defaultValue={post?.content} onChange={(e) => {setContent(e.target.value)}}></input>だと二つとも変更しない（いじらない）と更新されない*/}
       <Middle>
         <Submit onClick={() => mutate()}>Edit</Submit>
       </Middle>
