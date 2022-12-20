@@ -1,41 +1,41 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import "./App.css";
 import Home from "./pages/Home";
 import EditPost from "./pages/EditPost";
 import PostDetail from "./pages/PostDetail";
-import CreatePost from './pages/CreatePost';
-import emotionReset from 'emotion-reset';
-import { Global, css } from '@emotion/react';
-import Header from './components/Header';
+import CreatePost from "./pages/CreatePost";
+import emotionReset from "emotion-reset";
+import { Global, css } from "@emotion/react";
 
 const queryClient = new QueryClient();
-
 
 function App() {
   return (
     <>
-    <Global styles={css`
-        ${emotionReset}
+      <Global
+        styles={css`
+          ${emotionReset}
 
-        *, *::after, *::before {
-          box-sizing: border-box;
-          -moz-osx-font-smoothing: grayscale;
-          -webkit-font-smoothing: antialiased;
-          font-smoothing: antialiased;
-        }
-      `} />
-    {/* <Header /> */}
-    <Router>
-      <Switch>
+          *, *::after, *::before {
+            box-sizing: border-box;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+          }
+        `}
+      />
+      {/* <Header /> */}
       <QueryClientProvider client={queryClient}>
-        <Route exact path='/' component={Home} />
-        <Route exact path='/post/create' component={CreatePost} />
-        <Route exact path='/post/:id/edit' component={EditPost} />
-        <Route exact path='/post/:id' component={PostDetail} />
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/post/create" component={CreatePost} />
+            <Route exact path="/post/:id/edit" component={EditPost} />
+            <Route exact path="/post/:id" component={PostDetail} />
+          </Switch>
+        </Router>
       </QueryClientProvider>
-      </Switch>
-    </Router>
     </>
 
     // <Router>
@@ -48,7 +48,7 @@ function App() {
     // </QueryClientProvider>
     // </Routes>
     // </Router>
-  )
+  );
 }
 
 export default App;
