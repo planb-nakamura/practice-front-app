@@ -8,8 +8,16 @@ import CreatePost from "./pages/CreatePost";
 import emotionReset from "emotion-reset";
 import { Global, css } from "@emotion/react";
 import Error404 from "./components/Error404";
+import Header from "./components/Header";
+import styled from "styled-components";
 
 const queryClient = new QueryClient();
+
+const Wrap = styled.div`
+  max-width: 800px;
+  margin: 80px auto 0 auto;
+  position: relative;
+`;
 
 function App() {
   return (
@@ -17,7 +25,6 @@ function App() {
       <Global
         styles={css`
           ${emotionReset}
-
           *, *::after, *::before {
             box-sizing: border-box;
             -moz-osx-font-smoothing: grayscale;
@@ -27,15 +34,18 @@ function App() {
       />
 
       <QueryClientProvider client={queryClient}>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/post/create" component={CreatePost} />
-            <Route exact path="/post/:id/edit" component={EditPost} />
-            <Route exact path="/post/:id" component={PostDetail} />
-            <Route exact path="*" component={Error404} />
-          </Switch>
-        </Router>
+        <Header></Header>
+        <Wrap>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/post/create" component={CreatePost} />
+              <Route exact path="/post/:id/edit" component={EditPost} />
+              <Route exact path="/post/:id" component={PostDetail} />
+              <Route exact path="*" component={Error404} />
+            </Switch>
+          </Router>
+        </Wrap>
       </QueryClientProvider>
     </>
   );

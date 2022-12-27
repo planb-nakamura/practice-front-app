@@ -1,53 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { useQuery, useMutation } from "react-query";
-import Loading from "../components/Loading";
+import { useQuery, useMutation, QueryClient } from "react-query";
 import styled from "styled-components";
 import axios from "axios";
-
-const Div = styled.div`
-  width: 50%;
-  margin: 0 auto;
-`;
+import Loading from "../components/Loading";
+import TitleForm from "../components/TitleForm";
+import ContentForm from "../components/ContentForm";
+import SubmitBtn from "../components/SubmitBtn";
 
 const Middle = styled.div`
   text-align: center;
-`;
-const Input = styled.input`
-  width: 100%;
-  margin-top: 50px;
-  padding: 20px;
-  font-size: 120%;
-  border: 3px solid #dcdcdc;
-  box-sizing: border-box;
-`;
-
-const Textarea = styled.textarea`
-  width: 100%;
-  margin-top: 50px;
-  padding: 20px;
-  font-size: 120%;
-  min-height: 400px;
-  resize: none;
-  border: 3px solid #dcdcdc;
-  box-sizing: border-box;
-`;
-
-const Submit = styled.button`
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  background: #000;
-  border: 2px solid #000;
-  border-radius: 5px;
-  padding: 15px 20px;
-  margin-top: 10px;
-  width: 30%;
-  &:hover {
-    background: #fff;
-    color: #000;
-    -webkit-transition: background-color 0.5s ease-in;
-  }
 `;
 
 type RouterParams = {
@@ -80,6 +42,7 @@ function EditPost() {
       }),
     {
       onSuccess: () => {
+        //ここでキャッシュ削除
         history.push("/");
       },
       onError: () => {
@@ -93,18 +56,19 @@ function EditPost() {
   }
 
   return (
-    <Div>
-      <form>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)}></Input>
-      </form>
-      <Textarea
+    <>
+      <TitleForm
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      ></TitleForm>
+      <ContentForm
         value={content}
         onChange={(e) => setContent(e.target.value)}
-      ></Textarea>
+      ></ContentForm>
       <Middle>
-        <Submit onClick={() => mutate()}>Edit</Submit>
+        <SubmitBtn buttonName="Edit" onClick={() => mutate()}></SubmitBtn>
       </Middle>
-    </Div>
+    </>
   );
 }
 

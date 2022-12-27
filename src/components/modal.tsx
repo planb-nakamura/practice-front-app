@@ -7,21 +7,44 @@ type RouterParams = {
 };
 
 const Div = styled.div`
-  position: "fixed";
+  position: fixed;
   top: 0;
   left: 0;
-  width: "100%";
-  height: "100%";
-  background-color: "rgba(0,0,0,0.5)";
-  display: "flex";
-  align-items: "center";
-  justify-content: "center";
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Divin = styled.div`
-  background: "white";
-  padding: "10px";
-  border-radius: "3px";
+  background: #ffffff;
+  padding: 120px 80px 40px;
+  border: 3px solid #dcdcdc;
+  border-radius: 5px;
+`;
+
+const Up = styled.button`
+  display: block;
+  margin: 60px auto 0;
+  padding: 15px 50px;
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+  border: 1px solid #000000;
+  border-radius: 5px;
+`;
+
+const Down = styled.button`
+  display: block;
+  margin: 20px auto 0;
+  padding: 15px 30px;
+  background-color: #7d7d7d;
+  color: #ffffff;
+  font-weight: bold;
+  border: 1px solid #555555;
+  border-radius: 5px;
 `;
 
 const Modal = (props: {
@@ -48,8 +71,8 @@ const Modal = (props: {
         <Div>
           <Divin>
             <p>{props.content}</p>
-            <button onClick={closeModal}>閉じる</button>
-            <button onClick={() => deletePost(id)}>削除</button>
+            <Up onClick={closeModal}>閉じる</Up>
+            <Down onClick={() => deletePost(id)}>削除</Down>
           </Divin>
         </Div>
       ) : (

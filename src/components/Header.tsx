@@ -4,10 +4,12 @@ const Header = () => {
   return (
     <AppBar position="static" style={{ backgroundColor: "#000000" }}>
       <Toolbar>
-        <img
-          src="https://classmethod.jp/wp-content/themes/classmethod/img/common/logo_classmethod.svg"
-          alt="クラスメソッド株式会社"
-        ></img>
+        <a href="/">
+          <img
+            src="https://marsquai.com/media/original_images/iconfinder_React.js_logo_1174949_0azkeSk.png"
+            width="80px"
+          ></img>
+        </a>
       </Toolbar>
     </AppBar>
   );
